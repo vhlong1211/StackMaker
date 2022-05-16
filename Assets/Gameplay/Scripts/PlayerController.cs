@@ -9,6 +9,11 @@ public class PlayerController : MonoBehaviour
     public Transform map;
     public Transform playerModel;
     public GameObject brickPrefab;
+    public Transform winPosMiddle;
+    public Transform closeChest;
+    public Transform openChest;
+    public Transform openChestPlace;
+    public Animator playerAnimator;
 
     private Vector3 mouseDownPos;
     private Vector3 mouseUpPos;
@@ -18,7 +23,10 @@ public class PlayerController : MonoBehaviour
     private float brickHeight = 0.3f;
     [SerializeField] private float speed = 50f;
     private bool isMoving = false;
+    private bool didWin = false;
+    private int winPhase = 0;
     private Vector3 targetCell;
+    private int brickCount;
 
     // Start is called before the first frame update
     void Start()
@@ -31,6 +39,7 @@ public class PlayerController : MonoBehaviour
     {
         GetMoveDirection();
         HandleMovement();
+        HandleWin();
     }
 
     private void GetMoveDirection(){
@@ -121,7 +130,9 @@ public class PlayerController : MonoBehaviour
                 currentDirection = Direction.None;
             }
         }else if( hit.CompareTag("Winpos")){
-            HandleWin();
+            didWin = true;
+            currentDirection = Direction.None;
+            isMoving = false;
         }
     }
 
@@ -162,7 +173,35 @@ public class PlayerController : MonoBehaviour
     }
 
     private void HandleWin(){
+        if(!didWin) return;
+        Vector3 destination2 = new Vector3(openChestPlace.position.x,transform.position.y,openChestPlace.position.z);
+        Vector3 destination1 = new Vector3(winPosMiddle.position.x,transform.position.y,winPosMiddle.position.z);
+        transform.position = Vector3.MoveTowards(transform.position , destination2 , speed/2 * Time.deltaTime);
+        if(winPhase == 0 & Vector3.Distance(transform.position,destination1) < 0.1f){
+            winPhase ++;
+        }
+        if(winPhase == 1 & Vector3.Distance(transform.position,destination2) < 0.1f){
+            winPhase ++;
+        }
+        if(winPhase == 1){
+            //Change anim and hide brick ,shoot particle
+            brickCount = brickStack.Count;
+            while(brickStack.Count > 0){
+                brickStack.Pop().SetActive(false);
 
+            }
+
+            AdjustBrickChange();
+            playerModel.transform.rotation = Quaternion.Euler(0,0,0);
+            playerAnimator.SetBool("didWin",true);
+
+        }
+        if(winPhase == 2){
+            //Change chest model
+            closeChest.gameObject.SetActive(false);
+            openChest.gameObject.SetActive(true);
+            UIManager.Instance.OpenUI(UIName.GamePlay);
+        }
     }
 }
 
