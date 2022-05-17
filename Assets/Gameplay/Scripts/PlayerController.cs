@@ -9,10 +9,10 @@ public class PlayerController : MonoBehaviour
     public Transform map;
     public Transform playerModel;
     public GameObject brickPrefab;
-    public Transform winPosMiddle;
-    public Transform closeChest;
-    public Transform openChest;
-    public Transform openChestPlace;
+    private Transform winPosMiddle;
+    private Transform closeChest;
+    private Transform openChest;
+    private Transform openChestPlace;
     public Animator playerAnimator;
 
     private Vector3 mouseDownPos;
@@ -32,6 +32,15 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         brickStack = new Stack<GameObject>();
+        Init();
+    }
+
+
+    void Init(){
+        winPosMiddle = MapManager.Instance.winPosMiddle;
+        closeChest = MapManager.Instance.closeChest;
+        openChest = MapManager.Instance.openChest;
+        openChestPlace = MapManager.Instance.openChestPlace;
     }
 
     // Update is called once per frame
