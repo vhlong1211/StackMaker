@@ -36,7 +36,6 @@ public class UIManager : MonoBehaviour
             canvasPrefabs.Add(canvas[i].nameUI, canvas[i]);
         }
 
-        Debug.Log(canvas.Length);
     }
 
     private void LateUpdate()
@@ -63,7 +62,7 @@ public class UIManager : MonoBehaviour
         }
         else
         {
-            canvas = canvasPrefabs[name];
+            canvas = canvasManagers[name];
         }
 
         canvas.OnInit();

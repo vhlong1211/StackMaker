@@ -39,7 +39,6 @@ public class GameManager : MonoBehaviour
         try
         {
             // TODO: fix about string level
-            //level = 1 + (level - 1) % 30;
             GameObject currentLevel = Instantiate(LevelManager.Instance.prefabLevelList[LevelManager.Instance.selectedLevel]);
             currentLevel.transform.parent = levelHolder.transform;
             Debug.Log("Generate levelsuccess");

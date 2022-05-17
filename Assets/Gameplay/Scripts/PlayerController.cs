@@ -9,10 +9,11 @@ public class PlayerController : MonoBehaviour
     public Transform map;
     public Transform playerModel;
     public GameObject brickPrefab;
-    private Transform winPosMiddle;
-    private Transform closeChest;
-    private Transform openChest;
-    private Transform openChestPlace;
+    // private Transform winPosMiddle;
+    // private Transform closeChest;
+    // private Transform openChest;
+    // private Transform openChestPlace;
+    private Vector3 playerOriginPos;
     public Animator playerAnimator;
 
     private Vector3 mouseDownPos;
@@ -28,20 +29,49 @@ public class PlayerController : MonoBehaviour
     private Vector3 targetCell;
     private int brickCount;
 
+    private static PlayerController instance;
+
+    public static PlayerController Instance
+    {
+        get
+        {
+            if (instance == null)
+            {
+                instance = FindObjectOfType<PlayerController>();
+            }
+
+            return instance;
+        }
+    }
+
     // Start is called before the first frame update
     void Start()
-    {
+    {   
+        playerOriginPos = transform.position;
         brickStack = new Stack<GameObject>();
-        Init();
+        //Init();
     }
 
-
-    void Init(){
-        winPosMiddle = MapManager.Instance.winPosMiddle;
-        closeChest = MapManager.Instance.closeChest;
-        openChest = MapManager.Instance.openChest;
-        openChestPlace = MapManager.Instance.openChestPlace;
-    }
+    //Không cache những biến đã bị destroy cùng gameobject được nên tạm thời comment lại?
+    // void Init(){
+    //     Debug.Log("eohehl:"+MapManager.Instance);
+    //     //Debug.Log("Win pos middle 0:"+winPosMiddle);
+    //     winPosMiddle = null;
+    //     //Debug.Log("Win pos middle 1:"+winPosMiddle);
+    //     winPosMiddle = MapManager.Instance.winPosMiddle;
+    //     //Debug.Log("Map manager:"+MapManager.Instance.winPosMiddle);
+    //     //Debug.Log("Win pos middle 2:"+winPosMiddle);
+    //     closeChest = null;
+    //     closeChest = MapManager.Instance.closeChest;
+    //     openChest = null;
+    //     openChest = MapManager.Instance.openChest;
+    //     Debug.Log("open chest place 0:"+openChestPlace);
+    //     openChestPlace = null;
+    //     Debug.Log("open chest place 1:"+openChestPlace);
+    //     openChestPlace = MapManager.Instance.openChestPlace;
+    //     Debug.Log("manager chest :"+MapManager.Instance.openChestPlace);
+    //     Debug.Log("open chest place 2:"+openChestPlace);
+    // }
 
     // Update is called once per frame
     void Update()
@@ -183,18 +213,25 @@ public class PlayerController : MonoBehaviour
 
     private void HandleWin(){
         if(!didWin) return;
+
+        Transform openChestPlace = MapManager.Instance.openChestPlace;
+        Transform winPosMiddle = MapManager.Instance.winPosMiddle;
+        Transform closeChest = MapManager.Instance.closeChest;
+        Transform openChest = MapManager.Instance.openChest;
+
+        //Debug.Log(openChestPlace+"----"+MapManager.Instance.openChestPlace);
         Vector3 destination2 = new Vector3(openChestPlace.position.x,transform.position.y,openChestPlace.position.z);
         Vector3 destination1 = new Vector3(winPosMiddle.position.x,transform.position.y,winPosMiddle.position.z);
         transform.position = Vector3.MoveTowards(transform.position , destination2 , speed/2 * Time.deltaTime);
         if(winPhase == 0 & Vector3.Distance(transform.position,destination1) < 0.1f){
             winPhase ++;
+            brickCount = brickStack.Count;
         }
         if(winPhase == 1 & Vector3.Distance(transform.position,destination2) < 0.1f){
             winPhase ++;
         }
         if(winPhase == 1){
             //Change anim and hide brick ,shoot particle
-            brickCount = brickStack.Count;
             while(brickStack.Count > 0){
                 brickStack.Pop().SetActive(false);
 
@@ -208,9 +245,22 @@ public class PlayerController : MonoBehaviour
         if(winPhase == 2){
             //Change chest model
             closeChest.gameObject.SetActive(false);
-            openChest.gameObject.SetActive(true);
+            openChest.gameObject.SetActive(true); 
             UIManager.Instance.OpenUI(UIName.GamePlay);
+            CanvasGameplay.Instance.scoreTxt.text = brickCount.ToString();
         }
+    }
+
+    public void ResetPlayerState(){
+        //Init();
+        didClick = false;
+        currentDirection = Direction.None;
+        isMoving = false;
+        didWin = false;
+        winPhase = 0;
+        transform.position = playerOriginPos;
+        playerAnimator.SetBool("didWin",false);
+        playerModel.transform.rotation = Quaternion.Euler(0,180,0);
     }
 }
 
