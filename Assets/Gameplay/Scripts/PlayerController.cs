@@ -8,6 +8,7 @@ public class PlayerController : MonoBehaviour
     public Transform brickStackTransform;
     public Transform map;
     public Transform playerModel;
+    public Transform tf;
     public GameObject brickPrefab;
     // private Transform winPosMiddle;
     // private Transform closeChest;
@@ -44,10 +45,14 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private void Awake() {
+        tf = transform;
+    }
+
     // Start is called before the first frame update
     void Start()
     {   
-        playerOriginPos = transform.position;
+        playerOriginPos = tf.position;
         brickStack = new Stack<GameObject>();
         //Init();
     }
@@ -93,36 +98,43 @@ public class PlayerController : MonoBehaviour
             mouseUpPos = Input.mousePosition;
             Vector2 xAxis = new Vector2(1,0);
             Vector2 directVector = new Vector2(mouseUpPos.x - mouseDownPos.x,mouseUpPos.y - mouseDownPos.y);
-            if(directVector.magnitude == 0) return;
+            if(directVector.sqrMagnitude == 0) return;
             float angleDiff = Vector2.Angle(xAxis,directVector);
             currentDirection = GetDirectionFromAngle(angleDiff);
         }
     }
 
     private Direction GetDirectionFromAngle(float angle){
+
+        Direction direction = Direction.None;
+
         if(angle >= 135){
-            return Direction.Left;
+            direction = Direction.Left;
         }else if(angle <= 45 ){
-            return Direction.Right;
+            direction = Direction.Right;
         }
+        if(direction != Direction.None){
+            return direction;
+        }
+
         float heightDiff = mouseUpPos.y - mouseDownPos.y;
         if(heightDiff > 0){
-            return Direction.Up;
+            direction = Direction.Up;
         }else if(heightDiff < 0){
-            return Direction.Down;
-        }else{
-            return Direction.None;
+            direction = Direction.Down;
         }
+
+        return direction;
     }
 
     private void HandleMovement(){
         if(currentDirection == Direction.None)  return;
         if(isMoving){
-            transform.position = Vector3.MoveTowards(transform.position , targetCell , speed * Time.deltaTime);
+            tf.position = Vector3.MoveTowards(tf.position , targetCell , speed * Time.deltaTime);
             //Check close to target
             float offset = 0.1f;
-            if(Vector3.Distance(transform.position,targetCell) < offset){
-                transform.position = targetCell;
+            if((tf.position-targetCell).sqrMagnitude < offset * offset){
+                tf.position = targetCell;
                 FindNextCell();
             }
         }else{
@@ -131,35 +143,35 @@ public class PlayerController : MonoBehaviour
     }
 
     private int[] DirectionToOffset(Direction direction){
+
+        int[] arrayDir = null;
+
         if(direction == Direction.Up){
-            int[] arrayDir = new int[]{0,1};
-            return arrayDir;
+            arrayDir = new int[]{0,1};
         }else if(direction == Direction.Right){
-            int[] arrayDir = new int[]{1,0};
-            return arrayDir;
+            arrayDir = new int[]{1,0};
         }else if(direction == Direction.Down){
-            int[] arrayDir = new int[]{0,-1};
-            return arrayDir;
+            arrayDir = new int[]{0,-1};
         }else if(direction == Direction.Left){
-            int[] arrayDir = new int[]{-1,0};
-            return arrayDir;
+            arrayDir = new int[]{-1,0};
         }
-        return null;
+        
+        return arrayDir;
     }
 
     private void CheckNewCell(Transform hit , Vector3 newPos){
-        if( hit.CompareTag("Unwalkable")){
+        if( hit.CompareTag(TagUtility.TAG_UNWALKABLE)){
             isMoving = false;
             currentDirection = Direction.None;
-        }else if( hit.CompareTag("Brick")){
+        }else if( hit.CompareTag(TagUtility.TAG_BRICK)){
             isMoving = true;
             targetCell = newPos;
             Destroy(hit.gameObject);
             GetNewBrick();
-        }else if( hit.CompareTag("Walkable")){
+        }else if( hit.CompareTag(TagUtility.TAG_WALKABLE)){
             isMoving = true;
             targetCell = newPos;
-        }else if( hit.CompareTag("Bridge")){
+        }else if( hit.CompareTag(TagUtility.TAG_BRIDGE)){
             if(brickStack.Count > 0){
                 isMoving = true;
                 targetCell = newPos;
@@ -168,7 +180,7 @@ public class PlayerController : MonoBehaviour
                 isMoving = false;
                 currentDirection = Direction.None;
             }
-        }else if( hit.CompareTag("Winpos")){
+        }else if( hit.CompareTag(TagUtility.TAG_WINPOS)){
             didWin = true;
             currentDirection = Direction.None;
             isMoving = false;
@@ -198,14 +210,14 @@ public class PlayerController : MonoBehaviour
     private void UseBrick(Vector3 newPos){
         GameObject brick = brickStack.Pop();
         brick.transform.parent = map;
-        brick.transform.position = new Vector3(newPos.x , transform.position.y - brickHeight  ,newPos.z);
-        brick.tag = "Walkable";
+        brick.transform.position = new Vector3(newPos.x , tf.position.y - brickHeight  ,newPos.z);
+        brick.tag = TagUtility.TAG_WALKABLE;
         AdjustBrickChange();
     }
 
     private Vector3 GetNewPos(){
         int[] tempDirectionArray = DirectionToOffset(currentDirection);
-        Vector3 newPos = transform.position;
+        Vector3 newPos = tf.position;
         newPos.x += tempDirectionArray[0];
         newPos.z += tempDirectionArray[1];
         return newPos;
@@ -220,14 +232,14 @@ public class PlayerController : MonoBehaviour
         Transform openChest = MapManager.Instance.openChest;
 
         //Debug.Log(openChestPlace+"----"+MapManager.Instance.openChestPlace);
-        Vector3 destination2 = new Vector3(openChestPlace.position.x,transform.position.y,openChestPlace.position.z);
-        Vector3 destination1 = new Vector3(winPosMiddle.position.x,transform.position.y,winPosMiddle.position.z);
-        transform.position = Vector3.MoveTowards(transform.position , destination2 , speed/2 * Time.deltaTime);
-        if(winPhase == 0 & Vector3.Distance(transform.position,destination1) < 0.1f){
+        Vector3 destination2 = new Vector3(openChestPlace.position.x,tf.position.y,openChestPlace.position.z);
+        Vector3 destination1 = new Vector3(winPosMiddle.position.x,tf.position.y,winPosMiddle.position.z);
+        tf.position = Vector3.MoveTowards(tf.position , destination2 , speed/2 * Time.deltaTime);
+        if(winPhase == 0 &(tf.position-destination1).sqrMagnitude < 0.1f * 0.1f){
             winPhase ++;
             brickCount = brickStack.Count;
         }
-        if(winPhase == 1 & Vector3.Distance(transform.position,destination2) < 0.1f){
+        if(winPhase == 1 & (tf.position-destination2).sqrMagnitude < 0.1f * 0.1f){
             winPhase ++;
         }
         if(winPhase == 1){
@@ -239,7 +251,7 @@ public class PlayerController : MonoBehaviour
 
             AdjustBrickChange();
             playerModel.transform.rotation = Quaternion.Euler(0,0,0);
-            playerAnimator.SetBool("didWin",true);
+            playerAnimator.SetBool(TagUtility.TAG_ANIM_DID_WIN,true);
 
         }
         if(winPhase == 2){
@@ -258,8 +270,8 @@ public class PlayerController : MonoBehaviour
         isMoving = false;
         didWin = false;
         winPhase = 0;
-        transform.position = playerOriginPos;
-        playerAnimator.SetBool("didWin",false);
+        tf.position = playerOriginPos;
+        playerAnimator.SetBool(TagUtility.TAG_ANIM_DID_WIN,false);
         playerModel.transform.rotation = Quaternion.Euler(0,180,0);
     }
 }
