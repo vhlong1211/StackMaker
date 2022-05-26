@@ -19,33 +19,10 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public GameObject levelHolder;
+    public Transform levelHolder;
 
     private void Start() {
-        LoadMapLevel();
+        LevelManager.Instance.LoadMapLevel();
     }
 
-    public void LoadMapLevel()
-    {   
-        int count = levelHolder.transform.childCount;
-        if (count != 0)
-        {
-            for(int i = 0; i < count; i++)
-            {
-                Transform item = levelHolder.transform.GetChild(i);
-                GameObject.Destroy(item.gameObject);
-            }
-        }
-        try
-        {
-            // TODO: fix about string level
-            GameObject currentLevel = Instantiate(LevelManager.Instance.prefabLevelList[LevelManager.Instance.selectedLevel]);
-            currentLevel.transform.parent = levelHolder.transform;
-            Debug.Log("Generate levelsuccess");
-        }
-        catch (System.Exception)
-        {
-            Debug.Log("Can't generate level ");
-        }
-    }
 }

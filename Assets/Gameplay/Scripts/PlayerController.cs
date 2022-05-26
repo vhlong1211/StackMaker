@@ -226,10 +226,10 @@ public class PlayerController : MonoBehaviour
     private void HandleWin(){
         if(!didWin) return;
 
-        Transform openChestPlace = MapManager.Instance.openChestPlace;
-        Transform winPosMiddle = MapManager.Instance.winPosMiddle;
-        Transform closeChest = MapManager.Instance.closeChest;
-        Transform openChest = MapManager.Instance.openChest;
+        Transform openChestPlace = LevelManager.Instance.openChestPlace;
+        Transform winPosMiddle = LevelManager.Instance.winPosMiddle;
+        Transform closeChest = LevelManager.Instance.closeChest;
+        Transform openChest = LevelManager.Instance.openChest;
 
         //Debug.Log(openChestPlace+"----"+MapManager.Instance.openChestPlace);
         Vector3 destination2 = new Vector3(openChestPlace.position.x,tf.position.y,openChestPlace.position.z);

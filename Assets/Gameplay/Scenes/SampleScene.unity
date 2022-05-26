@@ -166,6 +166,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e89a339991370ee49b2804e29a95e675, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  prefabBC: {fileID: 2757349389445030341, guid: b917106be67494142b0c2714466dc4c5, type: 3}
+  prefabUnwalkable: {fileID: 7308729683028377142, guid: 81c9620c5c2238e44a63fbe16d6fe42a, type: 3}
+  prefabWalkable: {fileID: 4779639640141953, guid: 420cc71941d06d84cbef166061b8db6b, type: 3}
+  prefabBridge: {fileID: 4604800304189370, guid: 2996d5212d52990429f2058a70e911eb, type: 3}
+  prefabWinpos: {fileID: 4157892317022374, guid: 15260bd208708ac4a8b69109401f1fa9, type: 3}
+  winPosMiddle: {fileID: 0}
+  closeChest: {fileID: 0}
+  openChest: {fileID: 0}
+  openChestPlace: {fileID: 0}
   newPrefabLevel: {fileID: 0}
   prefabLevelList:
   - {fileID: 8340024147625866077, guid: a4120ecfe91f4cc41bbeecbcccfc9c36, type: 3}
@@ -173,7 +182,23 @@ MonoBehaviour:
   - {fileID: 3962890068969946331, guid: 2641aa0d4336cfb4a87b83c5ccad7272, type: 3}
   - {fileID: 3547090250874872305, guid: 29d93237da662914ea0f92194a5d2d61, type: 3}
   - {fileID: 3547090250874872305, guid: 5b9d9f96d37114e48b86766674f8ba78, type: 3}
-  selectedLevel: 4
+  - {fileID: 5004679996881288225, guid: 78a911e28d37e0a45bf7949e17f94674, type: 3}
+  - {fileID: 777879103998329577, guid: 2e4e20428e561e245b561d21132b2bec, type: 3}
+  - {fileID: 3630934947360557887, guid: f62e9159cd276f741be23ff4a45cb8a4, type: 3}
+  - {fileID: 3979943036553643319, guid: 6ee6a918cee8fbf44b848e7a979a1505, type: 3}
+  - {fileID: 875054879900418352, guid: f3f8e2473e60784429f328ad5fb30be9, type: 3}
+  levelDataPathList:
+  - Assets/Gameplay/Resources/LevelData/Level.txt
+  - Assets/Gameplay/Resources/LevelData/Level 1.txt
+  - Assets/Gameplay/Resources/LevelData/Level 2.txt
+  - Assets/Gameplay/Resources/LevelData/Level 3.txt
+  - Assets/Gameplay/Resources/LevelData/Level 4.txt
+  - Assets/Gameplay/Resources/LevelData/Level 5.txt
+  - Assets/Gameplay/Resources/LevelData/Level 6.txt
+  - Assets/Gameplay/Resources/LevelData/Level 7.txt
+  - Assets/Gameplay/Resources/LevelData/Level 8.txt
+  - Assets/Gameplay/Resources/LevelData/Level 9.txt
+  selectedLevel: 7
 --- !u!95 &163311746 stripped
 Animator:
   m_CorrespondingSourceObject: {fileID: 95019448655983436, guid: c48c69ee1a460fe4ea5a1245dd6bfe9d, type: 3}
@@ -222,7 +247,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38b1499e73e0a67439b6234cf2806e1f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  levelHolder: {fileID: 71639139}
+  levelHolder: {fileID: 71639140}
 --- !u!1 &578572757
 GameObject:
   m_ObjectHideFlags: 0
@@ -496,7 +521,7 @@ Transform:
   m_Father: {fileID: 1464533066}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 50, y: 0, z: 0}
---- !u!1 &1454665319
+--- !u!1 &1358812586
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -504,11 +529,11 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 1454665324}
-  - component: {fileID: 1454665323}
-  - component: {fileID: 1454665322}
-  - component: {fileID: 1454665321}
-  - component: {fileID: 1454665320}
+  - component: {fileID: 1358812591}
+  - component: {fileID: 1358812590}
+  - component: {fileID: 1358812589}
+  - component: {fileID: 1358812588}
+  - component: {fileID: 1358812587}
   m_Layer: 5
   m_Name: Canvas - Main
   m_TagString: Untagged
@@ -516,26 +541,26 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1454665320
+--- !u!114 &1358812587
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1454665319}
+  m_GameObject: {fileID: 1358812586}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8cf70a0d72414d144bdd112abe1cdcc1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  parent: {fileID: 1454665324}
---- !u!114 &1454665321
+  parent: {fileID: 1358812591}
+--- !u!114 &1358812588
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1454665319}
+  m_GameObject: {fileID: 1358812586}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
@@ -546,13 +571,13 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &1454665322
+--- !u!114 &1358812589
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1454665319}
+  m_GameObject: {fileID: 1358812586}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
@@ -569,13 +594,13 @@ MonoBehaviour:
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
   m_PresetInfoIsWorld: 0
---- !u!223 &1454665323
+--- !u!223 &1358812590
 Canvas:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1454665319}
+  m_GameObject: {fileID: 1358812586}
   m_Enabled: 1
   serializedVersion: 3
   m_RenderMode: 0
@@ -590,13 +615,13 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
---- !u!224 &1454665324
+--- !u!224 &1358812591
 RectTransform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1454665319}
+  m_GameObject: {fileID: 1358812586}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0, y: 0, z: 0}
@@ -673,6 +698,7 @@ MonoBehaviour:
   brickStackTransform: {fileID: 1656042934}
   map: {fileID: 71639140}
   playerModel: {fileID: 1798488811}
+  tf: {fileID: 0}
   brickPrefab: {fileID: 1531101969777205, guid: a287fe733bb69c243ae99ca62165a75f, type: 3}
   playerAnimator: {fileID: 163311746}
   speed: 10

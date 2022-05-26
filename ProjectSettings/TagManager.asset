@@ -9,6 +9,7 @@ TagManager:
   - Brick
   - Unwalkable
   - Winpos
+  - BC
   layers:
   - Default
   - TransparentFX

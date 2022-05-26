@@ -24,7 +24,7 @@ public class CanvasGameplay : UICanvas
 
     public void ResetLevel(){
         OnClose();
-        GameManager.Instance.LoadMapLevel();
+        LevelManager.Instance.LoadMapLevel();
         PlayerController.Instance.ResetPlayerState();
     }
 
@@ -32,7 +32,7 @@ public class CanvasGameplay : UICanvas
         OnClose();
         int nextLevel = LevelManager.Instance.selectedLevel + 1;
         LevelManager.Instance.selectedLevel = nextLevel > LevelManager.Instance.prefabLevelList.Count-1 ? 0 : nextLevel;
-        GameManager.Instance.LoadMapLevel();
+        LevelManager.Instance.LoadMapLevel();
         PlayerController.Instance.ResetPlayerState();
     }
 }
