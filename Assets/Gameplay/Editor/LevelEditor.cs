@@ -27,6 +27,13 @@ public class LevelEditor : Editor
             //PrefabUtility.SaveAsPrefabAsset(prefabLevel, localPath, out prefabSuccess);
             LevelManager.Instance.EditLevel();
         }
+
+        if (GUILayout.Button("Delete Level"))
+        {
+            //PrefabUtility.SaveAsPrefabAsset(prefabLevel, localPath, out prefabSuccess);
+            LevelManager.Instance.DeleteLevel();
+        }
+
         GUIContent levelLabel = new GUIContent("Selected Level");
         List<string> levelNameList = new List<string>();
         foreach (string level in levelManager.levelDataPathList)

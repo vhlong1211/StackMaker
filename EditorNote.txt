@@ -1,18 +1,13 @@
-_Ở trong Reources/Levels có lưu lại các prefab của các level đã tạo,
-có thể dùng để tham khảo tạo level mới
-_Các bước tạo level mới:
-+Kéo 1 prefab bất kì từ trong Resources/Levels vào Object Level trong Scene
-+Unpack prefab vừa được kéo ở scene
-+Kéo prefab đó vào NewPrefabLevel làm reference trong script LevelManager
-được gán vào Object level
-+Chỉnh sửa prefab vừa được unpack như ý muốn
-+Ấn Save Level trong Editor của LevelManager
-+Kéo prefab vừa được tạo mới trong Resources/Levels vào dưới cùng của
-PrefabLevelList
-+Chọn selected level 
-+Ấn start
-_Các bước xóa Level cũ:
-+Xóa path trong LevelDataPathList và Resources/LevelData,xóa prefab trong
-PrefabLevelList và Resources/Level
-_Nút New Level dùng để khi xóa tất cả level đang được chỉnh sửa đi để
-làm lại
+
+_Cách tạo level:
+B1:Chọn selected level 1 cái bất kì
+B2:Ấn Load Level để nhìn được level đấy(Nếu ngứa mắt muốn làm lại,thì ấn New Level)
+B3:Chỉnh sửa Level thủ công
+B4:Ấn Save Level
+B5:Check trong Level Data Path List để xem thứ tự level đúng chưa,nếu chưa thì kéo
+cho đúng như ý muốn
+_Cách xóa Level:
+Chọn selected level mình muốn,ấn load để nhìn xem có phải cái mình muốn xóa không,
+sau đó ấn Delete Level
+_Cách chỉnh sửa Level:
+Chọn selected level và load level,sau đó chỉnh sửa thủ công rồi ấn Edit Level

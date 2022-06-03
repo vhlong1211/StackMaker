@@ -23,7 +23,7 @@ public class PlayerController : MonoBehaviour
     private Direction currentDirection = Direction.None;
     private float cellSize = 1f;
     private float brickHeight = 0.3f;
-    [SerializeField] private float speed = 50f;
+    [SerializeField] private float speed = 80f;
     private bool isMoving = false;
     private bool didWin = false;
     private int winPhase = 0;

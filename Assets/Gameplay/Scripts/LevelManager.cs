@@ -122,6 +122,12 @@ public class LevelManager : MonoBehaviour
         }
     }
 
+    public void DeleteLevel() {
+        string localDatalPath = "Assets/Gameplay/Resources/LevelData/Level " + selectedLevel + ".txt";
+        File.Delete(localDatalPath);
+        levelDataPathList.RemoveAt(selectedLevel);
+    }
+
     public void ResetLevel(){
         DestroyImmediate(newPrefabLevel.gameObject);
         newPrefabLevel = null;
