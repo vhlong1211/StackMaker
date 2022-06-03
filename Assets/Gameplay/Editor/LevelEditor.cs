@@ -17,11 +17,22 @@ public class LevelEditor : Editor
             //PrefabUtility.SaveAsPrefabAsset(prefabLevel, localPath, out prefabSuccess);
             levelManager.SaveLevel();
         }
+        if (GUILayout.Button("Load Level"))
+        {
+            //PrefabUtility.SaveAsPrefabAsset(prefabLevel, localPath, out prefabSuccess);
+            LevelManager.Instance.LoadMapLevel();
+        }
+        if (GUILayout.Button("Edit Level"))
+        {
+            //PrefabUtility.SaveAsPrefabAsset(prefabLevel, localPath, out prefabSuccess);
+            LevelManager.Instance.EditLevel();
+        }
         GUIContent levelLabel = new GUIContent("Selected Level");
         List<string> levelNameList = new List<string>();
-        foreach (GameObject level in levelManager.prefabLevelList)
+        foreach (string level in levelManager.levelDataPathList)
         {
-            levelNameList.Add(level.name);
+            string[] strPart = level.Split('/');
+            levelNameList.Add(strPart[strPart.Length-1]);
         }
         levelManager.selectedLevel = EditorGUILayout.Popup(levelLabel,levelManager.selectedLevel,levelNameList.ToArray());
     }

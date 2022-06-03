@@ -40,7 +40,7 @@ public class LevelManager : MonoBehaviour
     public Transform openChestPlace;
 
     public Transform newPrefabLevel;
-    public List<GameObject> prefabLevelList;
+    //public List<GameObject> prefabLevelList;
     public List<String> levelDataPathList;
     [HideInInspector]
     public int selectedLevel = 0;
@@ -49,9 +49,9 @@ public class LevelManager : MonoBehaviour
         if(newPrefabLevel == null) return;
         Debug.Log("Saved");
 
-        string localPrefabPath = "Assets/Gameplay/Resources/Levels/" + "Level" + ".prefab";
-        localPrefabPath = AssetDatabase.GenerateUniqueAssetPath(localPrefabPath);
-        PrefabUtility.SaveAsPrefabAsset(newPrefabLevel.gameObject, localPrefabPath);
+        //string localPrefabPath = "Assets/Gameplay/Resources/Levels/" + "Level" + ".prefab";
+        //localPrefabPath = AssetDatabase.GenerateUniqueAssetPath(localPrefabPath);
+        //PrefabUtility.SaveAsPrefabAsset(newPrefabLevel.gameObject, localPrefabPath);
 
         string locaDatalPath = "Assets/Gameplay/Resources/LevelData/" + "Level" + ".txt";
         locaDatalPath = AssetDatabase.GenerateUniqueAssetPath(locaDatalPath);
@@ -74,10 +74,11 @@ public class LevelManager : MonoBehaviour
         int count = levelHolder.transform.childCount;
         if (count != 0)
         {
-            for(int i = 0; i < count; i++)
+            for (int i = 0; i < count; i++)
             {
-                Transform item = levelHolder.transform.GetChild(i);
-                GameObject.Destroy(item.gameObject);
+                Transform item = levelHolder.transform.GetChild(0);
+                if(item!=null) DestroyImmediate(item.gameObject);
+
             }
         }
         try
@@ -106,6 +107,18 @@ public class LevelManager : MonoBehaviour
         catch (System.Exception)
         {
             Debug.Log("Can't generate level ");
+        }
+    }
+
+    public void EditLevel() {
+        string locaDatalPath = "Assets/Gameplay/Resources/LevelData/Level " + selectedLevel + ".txt";
+        File.WriteAllText(locaDatalPath, "");
+        for (int i = 0; i < newPrefabLevel.childCount; i++)
+        {
+            Transform tempOb = newPrefabLevel.GetChild(i);
+            string content = tempOb.tag + "/" + tempOb.position.x + "/" + tempOb.position.y + "/" + tempOb.position.z + "/" + tempOb.localRotation.eulerAngles.x + "/" + tempOb.localRotation.eulerAngles.y + "/" + tempOb.localRotation.eulerAngles.z + "\n";
+            File.AppendAllText(locaDatalPath, content);
+            Debug.Log(newPrefabLevel.GetChild(i).name);
         }
     }
 
